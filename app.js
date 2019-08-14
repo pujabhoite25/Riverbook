@@ -23,8 +23,46 @@ app.controller('RiverinfoController', function($scope, $sce, $http) {
 	$scope.rbriverLocation;
 	var msg;
 	
+
+	var mymap = L.map('rbmap').setView([18.59, 73.78], 13);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(mymap);
+
+	
+
+	L.circle([18.59, 73.78], {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5,
+		radius: 500
+	}).addTo(mymap);
+
+	
+
+	function onMapClick(e) {
+		//alert("You clicked the map at " + e.latlng);
+		console.log(e);
+		L.circle([e.latlng.lat, e.latlng.lng], {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5,
+			radius: 500
+		}).addTo(mymap);
+		
+	}
+
+mymap.on('click', onMapClick);
+	
 	var getUserData = function(){
 		$scope.rbusername = localStorage.getItem("rbusername");
+		
+		
 	}();
     $scope.allRivers = {
 	"rivers": [{
